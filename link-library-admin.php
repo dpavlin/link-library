@@ -1672,7 +1672,7 @@ wp_editor( $post->post_content, 'content', $editor_config );
 				$myFile = $upload_dir['path'] . "/LinksExport.csv";
 				$fh = fopen( $myFile, 'w' ) or die( "can't open file" );
 
-				$links_query_args = array( 'post_type' => 'link_library_links', 'posts_per_page' => -1, 'post_status' => array( 'publish', 'pending', 'draft', 'future', 'private' ) );
+				$links_query_args = array( 'post_type' => 'link_library_links', 'posts_per_page' => -1, 'post_status' => array( 'publish', 'pending', 'draft', 'future', 'private' ), 'suppress_filters' => true );
 
 				$links_to_export = new WP_Query( $links_query_args );
 
@@ -1813,7 +1813,7 @@ wp_editor( $post->post_content, 'content', $editor_config );
 				$myFile = $upload_dir['path'] . "/LinksExport.opml";
 				$fh = fopen( $myFile, 'w' ) or die( "can't open file" );
 
-				$link_categories_query_args = array( );
+				$link_categories_query_args = array( 'suppress_filters' => true );
 				$link_categories_query_args['hide_empty'] = true;
 
 				add_filter( 'get_terms', 'link_library_get_terms_filter_only_publish', 10, 3 );
@@ -1831,7 +1831,7 @@ wp_editor( $post->post_content, 'content', $editor_config );
 				foreach ( (array) $link_categories as $link_category ) {
 					fwrite( $fh, "\t" . '<outline type="category" title="' . $link_category->name . '">' . "\n" );
 					
-					$link_query_args = array( 'post_type' => 'link_library_links', 'posts_per_page' => -1, 'post_status' => 'publish' );
+					$link_query_args = array( 'post_type' => 'link_library_links', 'posts_per_page' => -1, 'post_status' => 'publish', 'suppress_filters' => true );
 					$link_query_args['orderby']['title'] = 'ASC';
 
 					$link_query_args['tax_query'][] =
@@ -1880,7 +1880,7 @@ wp_editor( $post->post_content, 'content', $editor_config );
 				$myFile = $upload_dir['path'] . "/CategoriesExport.csv";
 				$fh = fopen( $myFile, 'w' ) or die( "can't open file" );
 
-				$link_library_categories = get_terms( 'link_library_category', array( 'hide_empty' => false, ) );
+				$link_library_categories = get_terms( 'link_library_category', array( 'hide_empty' => false, 'suppress_filters' => true ) );
 
 				if ( !empty( $link_library_categories ) ) {
 					$headerrow = array( 'Category ID', 'Category Name', 'Parent Category Name (Empty if top-level category)' );

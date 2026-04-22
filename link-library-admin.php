@@ -1788,20 +1788,20 @@ wp_editor( $post->post_content, 'content', $editor_config );
 						}
 						fputcsv( $fh, $datarow, ',', '"' );
 					}
+				}
 
-					fclose( $fh );
+				fclose( $fh );
 
-					if ( file_exists( $myFile ) ) {
-						header( 'Content-Description: File Transfer' );
-						header( 'Content-Type: application/octet-stream' );
-						header( 'Content-Disposition: attachment; filename=' . basename( $myFile ) );
-						header( 'Expires: 0' );
-						header( 'Cache-Control: must-revalidate' );
-						header( 'Pragma: public' );
-						header( 'Content-Length: ' . filesize( $myFile ) );
-						readfile( $myFile );
-						exit;
-					}
+				if ( file_exists( $myFile ) ) {
+					header( 'Content-Description: File Transfer' );
+					header( 'Content-Type: application/octet-stream' );
+					header( 'Content-Disposition: attachment; filename=' . basename( $myFile ) );
+					header( 'Expires: 0' );
+					header( 'Cache-Control: must-revalidate' );
+					header( 'Pragma: public' );
+					header( 'Content-Length: ' . filesize( $myFile ) );
+					readfile( $myFile );
+					exit;
 				}
 			} else {
 				$message = '3';
